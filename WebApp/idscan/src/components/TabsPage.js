@@ -14,10 +14,10 @@ class TabsPage extends Component {
 	}
 
 	_renderTabs() {
-		return this.props.exam_dates.map((date) => {
+		return this.props.exam_dates.map((date, index) => {
 			return (
-				<Tab>
-					{date}
+				<Tab key={index}>
+					<div>{date}</div>
 				</Tab>
 			);
 		})
@@ -25,9 +25,9 @@ class TabsPage extends Component {
 
 
 	_renderPanels() {
-		return this.props.exam_dates.map((date) => {
+		return this.props.exam_dates.map((date, index) => {
 			return (
-				<TabPanel>
+				<TabPanel className = "tab-panel" key={index}>
 					<Panel student_list={this.props.student_list}/>
 				</TabPanel>
 			);
