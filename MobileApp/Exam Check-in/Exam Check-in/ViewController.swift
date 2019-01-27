@@ -28,35 +28,39 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
     imagePicker.dismiss(animated: true, completion: nil)
     imageView.image = info[.originalImage] as? UIImage
     
-    let json = "{ 'url' : 'http://media-s3-us-east-1.ceros.com/ozy/images/2017/12/15/cd09ad332e974fd19dba422a130a313b/convo-1-text-13.png' }"
+    let imageData = imageView.image!.pngData()!
+    let imageStr = imageData.base64EncodedString()
+    
+    //let json = "{ 'url' : 'http://media-s3-us-east-1.ceros.com/ozy/images/2017/12/15/cd09ad332e974fd19dba422a130a313b/convo-1-text-13.png' }"
     
     let url = URL(string: "https://westus.api.cognitive.microsoft.com/vision/v2.0/recognizeText?mode=Printed")!
     
     var request = URLRequest(url: url)
     
     request.httpMethod = "Post"
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.setValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
     request.setValue("9a9a126632d64209ba6ccd7d6e27059b", forHTTPHeaderField: "Ocp-Apim-Subscription-Key")
     
-    request.httpBody = json.data(using: .utf8)
+//    request.httpBody = json.data(using: .utf8)
+    request.httpBody = imageData
     
     let task = URLSession.shared.dataTask(with: request) { data, response, error in
       if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
         print("statusCode should be 200, but is \(httpStatus.statusCode)")
-//        print("response = \(response!)")
-      
+        //        print("response = \(response!)")
+        
         let operationLocation = (httpStatus.allHeaderFields["Operation-Location"])! as? String
         //print(operationLocation!) // this bitch is an optional String!!
         self.operationLocationString = operationLocation!
         print(self.operationLocationString)
         
         let URL = operationLocation!
-        sleep(4)
+        sleep(3)
         let header : [String : String] = ["Ocp-Apim-Subscription-Key" : "9a9a126632d64209ba6ccd7d6e27059b"]
         Alamofire.request(URL, method: .get, headers: header).responseJSON { (response) in
           if ((response.result.value) != nil) {
             let jsonData = JSON(response.result.value!)
-            print(jsonData["recognitionResult"]["lines"][0]["text"])
+            print(jsonData["recognitionResult"]["lines"])
           }
           
         }
@@ -66,12 +70,12 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
         //var request = URLRequest(url: url)
         
         
-
+        
         
       }
     }
     task.resume()
-
+    
   }
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -79,5 +83,6 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
   }
   
 }
+
 
 
