@@ -24,11 +24,11 @@ class Panel extends Component {
 
 	render() {
 		return (
-			<table className = "student-table">
+			<table className="student-table">
 				<thead>
 					<tr>
-						<th>Student Name</th>
-						<th>Student Number</th>
+						<th className="table-header">Student Name</th>
+						<th className="table-header">Student Number</th>
 					</tr>
 				</thead>
 				<tbody>
