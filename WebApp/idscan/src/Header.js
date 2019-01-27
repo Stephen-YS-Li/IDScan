@@ -13,7 +13,7 @@ class Header extends Component {
 
     render() {
         return (
-            <div class = "Header">
+            <div className="header">
                 IDScan
             </div>
         )
