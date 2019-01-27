@@ -42,7 +42,13 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
     let task = URLSession.shared.dataTask(with: request) { data, response, error in
       if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
         print("statusCode should be 200, but is \(httpStatus.statusCode)")
-        print("response = \(response!)")
+//        print("response = \(response!)")
+      
+        let operationLocation = (httpStatus.allHeaderFields["Operation-Location"])! as? String
+        print(operationLocation!) // this bitch is an optional String!!
+
+        
+        
       }
     }
     task.resume()
