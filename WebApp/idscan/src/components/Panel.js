@@ -27,8 +27,8 @@ class Panel extends Component {
 			<table className="student-table">
 				<thead>
 					<tr>
-						<th className="table-header">Student Name</th>
-						<th className="table-header">Student Number</th>
+						<th>Student Name</th>
+						<th>Student Number</th>
 					</tr>
 				</thead>
 				<tbody>
