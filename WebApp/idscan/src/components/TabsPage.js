@@ -2,23 +2,45 @@ import React, {Component} from 'react';
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import "./css/TabsPage.css";
+import Panel from './Panel.js';
+import '../css/TabsPage.css';
 
 class TabsPage extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+
+		}
+	}
+
+	_renderTabs() {
+		return this.props.exam_dates.map((date) => {
+			return (
+				<Tab>
+					{date}
+				</Tab>
+			);
+		})
+	}
+
+
+	_renderPanels() {
+		return this.props.exam_dates.map((date) => {
+			return (
+				<TabPanel>
+					<Panel student_list={this.props.student_list}/>
+				</TabPanel>
+			);
+		})
+	}
+
 	render() {
 		return (
 			<Tabs className = "tabs">
 			    <TabList>
-				    <Tab>Title 1</Tab>
-				    <Tab>Title 2</Tab>
+				    {this._renderTabs()}
 			    </TabList>
-
-			    <TabPanel className = "tab-panel">
-			    	<h2>Any content 1</h2>
-			    </TabPanel>
-			    <TabPanel className = "tab-panel">
-			    	<h2>Any content 2</h2>
-			    </TabPanel>
+			    {this._renderPanels()}
 		  	</Tabs>
 		);
 	}
