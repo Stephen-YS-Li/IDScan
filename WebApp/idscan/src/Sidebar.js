@@ -6,31 +6,28 @@ class Sidebar extends Component {
     //     super(props)
     // }
 
+    _renderCourses() {
+        this.props.courses.sort((a, b) => a.course_code - b.course_code);
+
+        return this.props.courses.map((course, index) => {
+            return (
+                <div key={index}>
+                    <div>
+                        {course.course_code}
+                    </div>
+                </div>
+            )
+        })
+    }
+
     render() {
         return (
             // Pass on our props
-            <div className = "sidebar">
-                <ul>
-                    <li>
-                        CPSC 420
-                    </li>
-
-                    <li>
-                        420
-                    </li>
-
-                    <li>
-                        Snoop Dogg
-                    </li>
-
-                    <li>
-                        Doge
-                    </li>
-
-                    <li>
-                       Add a class
-                    </li>
-                </ul>
+            <div className="sidebar">
+                {this._renderCourses()}
+                <div>
+                    Add a class
+                </div>
             </div>
         )
     }
