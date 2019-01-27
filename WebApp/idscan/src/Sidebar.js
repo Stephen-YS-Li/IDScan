@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import sb from "react-sidebar";
 import './css/sidebar.css';
 
 class Sidebar extends Component {
@@ -10,7 +9,7 @@ class Sidebar extends Component {
     render() {
         return (
             // Pass on our props
-            <sb className = "sidebar">
+            <div className = "sidebar">
                 <ul>
                     <li>
                         CPSC 420
@@ -32,7 +31,7 @@ class Sidebar extends Component {
                        Add a class
                     </li>
                 </ul>
-            </sb>
+            </div>
         )
     }
 }

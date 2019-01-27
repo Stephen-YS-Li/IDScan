@@ -11,5 +11,6 @@ ul li {
 .sidebar {
     background-color: #C0C0C0;
     height: 100vh;
+    width: 15vw;
     padding-right: 5vh;
 }
