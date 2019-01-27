@@ -13,6 +13,7 @@ import SwiftyJSON
 class ViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
   
   var imagePicker: UIImagePickerController!
+  var operationLocationString = ""
   
   @IBOutlet weak var imageView: UIImageView!
   
@@ -27,7 +28,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
     imagePicker.dismiss(animated: true, completion: nil)
     imageView.image = info[.originalImage] as? UIImage
     
-    let json = "{ 'url' : 'https://www.gstatic.com/webp/gallery3/1.png?fbclid=IwAR3HC7encjAoNO1sGqmfen6rqqiEhtGlXvAwjuxUfGpKTX9D7c6LF9hn9zE' }"
+    let json = "{ 'url' : 'http://media-s3-us-east-1.ceros.com/ozy/images/2017/12/15/cd09ad332e974fd19dba422a130a313b/convo-1-text-13.png' }"
     
     let url = URL(string: "https://westus.api.cognitive.microsoft.com/vision/v2.0/recognizeText?mode=Printed")!
     
@@ -45,13 +46,32 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
 //        print("response = \(response!)")
       
         let operationLocation = (httpStatus.allHeaderFields["Operation-Location"])! as? String
-        print(operationLocation!) // this bitch is an optional String!!
-
+        //print(operationLocation!) // this bitch is an optional String!!
+        self.operationLocationString = operationLocation!
+        print(self.operationLocationString)
         
+        let URL = operationLocation!
+        sleep(4)
+        let header : [String : String] = ["Ocp-Apim-Subscription-Key" : "9a9a126632d64209ba6ccd7d6e27059b"]
+        Alamofire.request(URL, method: .get, headers: header).responseJSON { (response) in
+          if ((response.result.value) != nil) {
+            let jsonData = JSON(response.result.value!)
+            print(jsonData["recognitionResult"]["lines"][0]["text"])
+          }
+          
+        }
+        
+        //let otherUrl = URL(string: "https://westus.api.cognitive.microsoft.com/vision/v2.0/recognizeText?mode=Printed")!
+        
+        //var request = URLRequest(url: url)
+        
+        
+
         
       }
     }
     task.resume()
+
   }
   override func viewDidLoad() {
     super.viewDidLoad()
