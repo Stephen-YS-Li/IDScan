@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import Header from './Header.js';
+import TabsPage from './TabsPage.js'
 
 class FrontPage extends Component {
     constructor(props) {
@@ -16,6 +17,7 @@ class FrontPage extends Component {
         return (
             <div id = "front-page">
                 <Header/>
+                <TabsPage/>
             </div>
         )
     }
