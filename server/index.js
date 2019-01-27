@@ -19,6 +19,6 @@ Courses = require('./models/Courses.js');
 app.use('/courses', courses);
 
 // Server
-app.listen(PORT, "0.0.0.0", function(){
+app.listen(PORT, function(){
   console.log('[Express.js] Server listening on PORT: '+ PORT);
 });
