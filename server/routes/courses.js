@@ -73,12 +73,13 @@ router.post('/:course_no/students', function(req, res) {
     attendance: [false, false, false]
   };
 
+  // Check for duplicate student
   Courses.findOne({course_no: courseNo})
   .exec(function (err, course) {
     if (course == undefined) {
       res.send('Unable to add student: Course does not exist');
     } else {
-      course.student_list.pull(newStudent);
+      course.student_list.push(newStudent);
       course.save(function(err, course) {
         if (err) {
           console.log(err);
@@ -91,8 +92,8 @@ router.post('/:course_no/students', function(req, res) {
   })
 })
 
-// Add student to course
-router.delete('/:course_no/:student_no', function(req, res) {
+// Remove student from course
+router.delete('/:course_no/students/:student_no', function(req, res) {
   var courseNo = req.params.course_no;
   var studentNo = req.params.student_no;
   console.log(studentNo);
@@ -102,27 +103,42 @@ router.delete('/:course_no/:student_no', function(req, res) {
     { $pull: {student_list: {student_no: studentNo}}},
     {safe: true, multi: true})
   .exec(function(err, course) {
-    console.log('ran');
-    res.send('removed');
+    if (course == undefined) {
+      res.send('Invalid Course');
+    } else {
+      if (err) {
+        res.send('Something went wrong');
+      } else {
+        res.send('Successfully deleted student');
+      }
+    }
   });
+})
 
-  // Courses.findOne({course_no: courseNo})
-  // .exec(function (err, course) {
-  //   if (course == undefined) {
-  //     res.send('Unable to remove student: Course does not exist');
-  //   } else {
-  //     console.log(course.student_list);
-  //     course.student_list.pull({student_no: studentNo});
-  //     course.save(function(err, course) {
-  //       if (err) {
-  //         console.log(err);
-  //         res.send('Something Went Wrong');
-  //       } else {
-  //         res.send('Successfully removed Student');
-  //       }
-  //     });
-  //   }
-  // })
+// Verify student in course
+router.put('/:course_no/students/:student_no', function(req, res) {
+  var courseNo = req.params.course_no;
+  var examIndex = req.body.exam_index;
+  var studentNo = req.params.student_no;
+  var found = false;
+
+  Courses.findOne({course_no: courseNo})
+  .exec(function (err, course) {
+    if (course == undefined) {
+      res.send('Unable to verify student: Course does not exist');
+    } else {
+      for (var i = 0; i < course.student_list.length; i++) {
+        if (course.student_list[i].student_no == studentNo) {
+          found = true;
+        }
+      }
+      if (found) {
+        res.send('Successfully Checked In Student');
+      } else {
+        res.send('Student Not Enrolled');
+      }
+    }
+  })
 })
 
 module.exports = router;
