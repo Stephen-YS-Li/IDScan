@@ -17,6 +17,7 @@ class Panel extends Component {
 				<tr key={index}>
 					<td>{student.student_name}</td>
 					<td>{student.student_no}</td>
+					<td>{student.attendance[this.props.course_index].toString()}</td>
 				</tr>
 			);
 		})
@@ -29,6 +30,7 @@ class Panel extends Component {
 					<tr>
 						<th>Student Name</th>
 						<th>Student Number</th>
+						<th>Attendance</th>
 					</tr>
 				</thead>
 				<tbody>

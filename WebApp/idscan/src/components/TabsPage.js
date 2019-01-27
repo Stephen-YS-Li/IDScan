@@ -5,6 +5,8 @@ import 'react-tabs/style/react-tabs.css';
 import Panel from './Panel.js';
 import '../css/TabsPage.css';
 
+var exams = ["Midterm 1", "Midterm 2", "Final Exam"];
+
 class TabsPage extends Component {
 	constructor(props) {
 		super(props);
@@ -14,10 +16,10 @@ class TabsPage extends Component {
 	}
 
 	_renderTabs() {
-		return this.props.exam_dates.map((date, index) => {
+		return this.props.course.exam_dates.map((date, index) => {
 			return (
 				<Tab key={index}>
-					<div>{date}</div>
+					<div>{exams[index]}</div>
 				</Tab>
 			);
 		})
@@ -25,10 +27,11 @@ class TabsPage extends Component {
 
 
 	_renderPanels() {
-		return this.props.exam_dates.map((date, index) => {
+		return this.props.course.exam_dates.map((date, index) => {
 			return (
-				<TabPanel className = "tab-panel" key={index}>
-					<Panel student_list={this.props.student_list}/>
+				<TabPanel key={index}>
+					<h3 className="panel-date">Date: {date}</h3>
+					<Panel student_list={this.props.course.student_list} course_index={index}/>
 				</TabPanel>
 			);
 		})
@@ -36,7 +39,7 @@ class TabsPage extends Component {
 
 	render() {
 		return (
-			<Tabs className = "tabs">
+			<Tabs className="tabs">
 			    <TabList>
 				    {this._renderTabs()}
 			    </TabList>
