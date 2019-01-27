@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var courses = require('./routes/courses');
 
 // Declare application parameters
-var PORT = process.env.PORT || 80;
+var PORT = process.env.PORT || 3000;
 
 // Configure
 require('./config/configuration.js')(app, mongoose);
