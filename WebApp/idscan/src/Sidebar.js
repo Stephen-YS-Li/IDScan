@@ -2,16 +2,18 @@ import React, {Component} from "react";
 import './css/sidebar.css';
 
 class Sidebar extends Component {
-    // constructor(props) {
-    //     super(props)
-    // }
+    constructor(props) {
+        super(props);
+    }
 
     _renderCourses() {
         this.props.courses.sort((a, b) => a.course_code - b.course_code);
 
         return this.props.courses.map((course, index) => {
             return (
-                <div key={index}>
+                <div id={course.course_code.toLowerCase().replace(" ", "-")}
+                     onClick={this.props.clickHandler}
+                     key={index}>
                     <div>
                         {course.course_code}
                     </div>
@@ -25,8 +27,8 @@ class Sidebar extends Component {
             // Pass on our props
             <div className="sidebar">
                 {this._renderCourses()}
-                <div>
-                    Add a class
+                <div id = "add-course" onClick={this.props.clickHandler}>
+                    Add course
                 </div>
             </div>
         )

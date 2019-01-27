@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Sidebar from "../Sidebar";
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -12,7 +13,7 @@ class TabsPage extends Component {
 		super(props);
 		this.state = {
 
-		}
+		};
 	}
 
 	_renderTabs() {
@@ -38,6 +39,13 @@ class TabsPage extends Component {
 	}
 
 	render() {
+		if (this.props.course === null) {
+			return <div> Select or add a course </div>;
+		}
+		// if (this. === "Add course") {
+		// 	return <div> Add course </div>
+		// }
+
 		return (
 			<Tabs className="tabs">
 			    <TabList>
